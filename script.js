@@ -19,7 +19,7 @@ async function loadWishlist() {
     }
 
     const items = await response.json();
-    alert(JSON.stringify(items));
+    
    items.forEach(function(item) {
 
 const cleanId = item.item_id.trim();
