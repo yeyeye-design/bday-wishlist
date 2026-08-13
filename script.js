@@ -2,9 +2,7 @@ const SUPABASE_URL = "https://whuhxslxfvilqlecviuu.supabase.co";
 const SUPABASE_KEY = "sb_publishable_eZfonS74nqs8I0k61b82UA_mL79NX5U";
 
 async function loadWishlist() {
-
   try {
-
     const response = await fetch(
       SUPABASE_URL + "/rest/v1/wishlist?select=item_id,claimed",
       {
@@ -16,13 +14,11 @@ async function loadWishlist() {
     );
 
     if (!response.ok) {
-      console.log("ERROR:", await response.text());
+      console.log("LOAD ERROR:", await response.text());
       return;
     }
 
     const items = await response.json();
-
-    console.log("SUPABASE:", items);
 
     items.forEach(function(item) {
 
@@ -31,18 +27,14 @@ async function loadWishlist() {
       );
 
       if (button && item.claimed === true) {
-
         button.textContent = "CLAIMED 💕";
         button.disabled = true;
-
       }
 
     });
 
   } catch (error) {
-
-    console.log("ERROR:", error);
-
+    console.log("LOAD ERROR:", error);
   }
 }
 
@@ -87,7 +79,10 @@ async function reserveItem(button) {
 
     if (!response.ok) {
 
-      console.log("CLAIM ERROR:", await response.text());
+      console.log(
+        "CLAIM ERROR:",
+        await response.text()
+      );
 
       button.disabled = false;
       button.textContent = "I'll get this! 🎁";
@@ -116,7 +111,7 @@ async function reserveItem(button) {
 
   } catch (error) {
 
-    console.log("ERROR:", error);
+    console.log("CLAIM ERROR:", error);
 
     button.disabled = false;
     button.textContent = "I'll get this! 🎁";
@@ -126,5 +121,3 @@ async function reserveItem(button) {
 
 
 loadWishlist();
-
-
