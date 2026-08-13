@@ -18,20 +18,24 @@ async function loadWishlist() {
       return;
     }
 
-    const items = await response.json();
-    
-   items.forEach(function(item) {
+   const items = await response.json();
 
-const cleanId = item.item_id.trim();
+items.forEach(function(item) {
 
-const button = document.querySelector(
-  '[data-item-id="' + cleanId + '"]'
-);      if (button && item.claimed === true) {
-        button.textContent = "CLAIMED 💕";
-        button.disabled = true;
-      }
+  const cleanId = item.item_id.trim();
 
-    });
+  const button = document.querySelector(
+    '[data-item-id="' + cleanId + '"]'
+  );
+
+  if (button && item.claimed === true) {
+
+    button.textContent = "CLAIMED 💕";
+    button.disabled = true;
+
+  }
+
+});
 
   } catch (error) {
     console.log("LOAD ERROR:", error);
