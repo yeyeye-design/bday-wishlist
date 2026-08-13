@@ -29,18 +29,31 @@ async function loadWishlist() {
 
     const items = await response.json();
 
+    console.log("DATABASE ITEMS:", items);
+
+
     items.forEach(function(item) {
+
+      const button = document.querySelector(
+        '[data-item-id="' + item.item_id + '"]'
+      );
+
+
+      if (!button) {
+        console.log(
+          "No button found for:",
+          item.item_id
+        );
+
+        return;
+      }
+
 
       if (item.claimed === true) {
 
-        const button = document.querySelector(
-          '[data-item-id="' + item.item_id + '"]'
-        );
+        button.textContent = "CLAIMED 💕";
 
-        if (button) {
-          button.textContent = "CLAIMED 💕";
-          button.disabled = true;
-        }
+        button.disabled = true;
 
       }
 
@@ -63,21 +76,20 @@ async function reserveItem(button) {
 
   const itemId = button.getAttribute("data-item-id");
 
-  console.log("Trying to claim:", itemId);
 
   if (!itemId) {
 
-    alert("Oops! This item doesn't have an ID yet.");
-
-    console.error("NO ITEM ID ON BUTTON");
+    alert("This item doesn't have an ID.");
 
     return;
+
   }
 
 
   const confirmation = confirm(
     "Are you sure you want to get this item? 🎁"
   );
+
 
   if (!confirmation) {
     return;
@@ -86,7 +98,7 @@ async function reserveItem(button) {
 
   button.disabled = true;
 
-  button.textContent = "Claiming... 💗";
+  button.textContent = "Checking... 💗";
 
 
   try {
@@ -96,6 +108,7 @@ async function reserveItem(button) {
       "/rest/v1/wishlist?item_id=eq." +
       encodeURIComponent(itemId) +
       "&claimed=eq.false",
+
       {
         method: "PATCH",
 
@@ -122,7 +135,8 @@ async function reserveItem(button) {
 
       button.disabled = false;
 
-      button.textContent = "I'll get this! 🎁";
+      button.textContent =
+        "I'll get this! 🎁";
 
       alert(
         "Something went wrong. Please try again."
@@ -136,17 +150,18 @@ async function reserveItem(button) {
 
 
     // ==========================
-    // SOMEONE ALREADY CLAIMED IT
+    // ALREADY CLAIMED
     // ==========================
 
     if (result.length === 0) {
 
-      button.textContent = "CLAIMED 💕";
+      button.textContent =
+        "CLAIMED 💕";
 
       button.disabled = true;
 
       alert(
-        "Oops! Someone already claimed this item 💕"
+        "Oops! Someone already claimed this 💕"
       );
 
       return;
@@ -157,7 +172,8 @@ async function reserveItem(button) {
     // SUCCESS
     // ==========================
 
-    button.textContent = "CLAIMED 💕";
+    button.textContent =
+      "CLAIMED 💕";
 
     button.disabled = true;
 
@@ -168,11 +184,15 @@ async function reserveItem(button) {
 
   } catch (error) {
 
-    console.error("CLAIM ERROR:", error);
+    console.error(
+      "CLAIM ERROR:",
+      error
+    );
 
     button.disabled = false;
 
-    button.textContent = "I'll get this! 🎁";
+    button.textContent =
+      "I'll get this! 🎁";
 
     alert(
       "Something went wrong. Please try again."
