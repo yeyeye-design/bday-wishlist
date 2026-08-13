@@ -19,8 +19,8 @@ async function loadWishlist() {
     }
 
     const items = await response.json();
-
-    items.forEach(function(item) {
+    alert(JSON.stringify(items));
+   items.forEach(function(item) {
 
       const button = document.querySelector(
         '[data-item-id="' + item.item_id + '"]'
