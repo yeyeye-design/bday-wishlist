@@ -207,4 +207,43 @@ async function reserveItem(button) {
 // START
 // ==========================
 
+async function loadWishlist() {
+
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/wishlist?select=item_id,claimed",
+    {
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY
+      }
+    }
+  );
+
+  const items = await response.json();
+
+  console.log("SUPABASE DATA:", items);
+
+  items.forEach(function(item) {
+
+    const button = document.querySelector(
+      '[data-item-id="' + item.item_id + '"]'
+    );
+
+    console.log(
+      item.item_id,
+      item.claimed,
+      button
+    );
+
+    if (button && item.claimed === true) {
+
+      button.textContent = "CLAIMED 💕";
+      button.disabled = true;
+
+    }
+
+  });
+}
 loadWishlist();
+
+console.log("SCRIPT LOADED");
