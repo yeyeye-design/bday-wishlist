@@ -22,14 +22,21 @@ async function loadWishlist() {
       }
     );
 
+
     if (!response.ok) {
-      console.error("LOAD ERROR:", await response.text());
+
+      console.error(
+        "LOAD ERROR:",
+        await response.text()
+      );
+
       return;
     }
 
+
     const items = await response.json();
 
-    console.log("DATABASE ITEMS:", items);
+    console.log("WISHLIST FROM DATABASE:", items);
 
 
     items.forEach(function(item) {
@@ -40,6 +47,7 @@ async function loadWishlist() {
 
 
       if (!button) {
+
         console.log(
           "No button found for:",
           item.item_id
@@ -49,19 +57,36 @@ async function loadWishlist() {
       }
 
 
-      if (item.claimed === true) {
+      // Convert database value to an actual boolean
+
+      const isClaimed =
+        item.claimed === true ||
+        item.claimed === "true";
+
+
+      if (isClaimed) {
 
         button.textContent = "CLAIMED 💕";
 
         button.disabled = true;
 
+      } else {
+
+        button.textContent = "I'll get this! 🎁";
+
+        button.disabled = false;
+
       }
 
     });
 
+
   } catch (error) {
 
-    console.error("LOAD ERROR:", error);
+    console.error(
+      "LOAD ERROR:",
+      error
+    );
 
   }
 
@@ -74,15 +99,15 @@ async function loadWishlist() {
 
 async function reserveItem(button) {
 
-  const itemId = button.getAttribute("data-item-id");
+  const itemId =
+    button.getAttribute("data-item-id");
 
 
   if (!itemId) {
 
-    alert("This item doesn't have an ID.");
+    console.error("NO ITEM ID");
 
     return;
-
   }
 
 
@@ -150,7 +175,7 @@ async function reserveItem(button) {
 
 
     // ==========================
-    // ALREADY CLAIMED
+    // SOMEONE ALREADY CLAIMED IT
     // ==========================
 
     if (result.length === 0) {
@@ -207,43 +232,4 @@ async function reserveItem(button) {
 // START
 // ==========================
 
-async function loadWishlist() {
-
-  const response = await fetch(
-    SUPABASE_URL + "/rest/v1/wishlist?select=item_id,claimed",
-    {
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY
-      }
-    }
-  );
-
-  const items = await response.json();
-
-  console.log("SUPABASE DATA:", items);
-
-  items.forEach(function(item) {
-
-    const button = document.querySelector(
-      '[data-item-id="' + item.item_id + '"]'
-    );
-
-    console.log(
-      item.item_id,
-      item.claimed,
-      button
-    );
-
-    if (button && item.claimed === true) {
-
-      button.textContent = "CLAIMED 💕";
-      button.disabled = true;
-
-    }
-
-  });
-}
 loadWishlist();
-
-console.log("SCRIPT LOADED");
