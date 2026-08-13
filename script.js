@@ -22,11 +22,11 @@ async function loadWishlist() {
     alert(JSON.stringify(items));
    items.forEach(function(item) {
 
-      const button = document.querySelector(
-        '[data-item-id="' + item.item_id + '"]'
-      );
+const cleanId = item.item_id.trim();
 
-      if (button && item.claimed === true) {
+const button = document.querySelector(
+  '[data-item-id="' + cleanId + '"]'
+);      if (button && item.claimed === true) {
         button.textContent = "CLAIMED 💕";
         button.disabled = true;
       }
