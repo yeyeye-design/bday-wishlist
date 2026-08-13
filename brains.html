@@ -1,11 +1,199 @@
-alert("HELLO FROM SCRIPT.JS 🎀");
 
-async function loadWishlist() {
-  alert("LOAD WISHLIST IS RUNNING 💗");
-}
+```html
+<!DOCTYPE html>
+<html lang="en">
 
-function reserveItem(button) {
-  alert("BUTTON WORKS 💕");
-}
+<head>
 
-loadWishlist();
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Brains</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0;100..900;1;100..900&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <h1>Brains</h1>
+
+  <main>
+
+    <!-- AYA -->
+
+    <div class="wishlist-item">
+
+      <img src="assets/aya.png" alt="Aya">
+
+      <h2>Aya</h2>
+
+      <h3>
+        Quand j’étais plus jeune, je lisais beaucoup Akissi, la petite sœur d’Aya !
+        Maintenant que j’ai grandi, il est temps de découvrir ses histoires à elle. 📚💗
+      </h3>
+
+      <p>Les tomes 1 à 9 📚</p>
+
+      <div class="tomes">
+
+        <div class="tome">
+          <h3>Tome 1</h3>
+          <button data-item-id="aya-1" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 2</h3>
+          <button data-item-id="aya-2" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 3</h3>
+          <button data-item-id="aya-3" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 4</h3>
+          <button data-item-id="aya-4" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 5</h3>
+          <button data-item-id="aya-5" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 6</h3>
+          <button data-item-id="aya-6" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 7</h3>
+          <button data-item-id="aya-7" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 8</h3>
+          <button data-item-id="aya-8" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+        <div class="tome">
+          <h3>Tome 9</h3>
+          <button data-item-id="aya-9" onclick="reserveItem(this)">
+            I'll get this! 🎁
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- HUM -->
+
+    <div class="wishlist-item">
+
+      <img src="assets/hum.jpeg" alt="Hum">
+
+      <h3>HUM</h3>
+
+      <button data-item-id="hum" onclick="reserveItem(this)">
+        I'll get this! 🎁
+      </button>
+
+    </div>
+
+
+    <!-- NEURO -->
+
+    <div class="wishlist-item">
+
+      <img src="assets/neuro.jpg" alt="Neuro">
+
+      <h3>Neuro</h3>
+
+      <p>
+        Why not create & feed the brain? 🧠💗
+      </p>
+
+      <button data-item-id="neuro" onclick="reserveItem(this)">
+        I'll get this! 🎁
+      </button>
+
+    </div>
+
+
+    <!-- PURHIB -->
+
+    <div class="wishlist-item">
+
+      <p>
+        As we all know, I'm black 👩🏾‍🦲, but I am not that endorsed in
+        African literature! I've heard wonderful things about
+        Things Fall Apart, written by a Nigerian author :D
+      </p>
+
+      <img src="assets/tfa.jpeg" alt="Things Fall Apart">
+
+      <h3>Things Fall Apart</h3>
+
+      <button data-item-id="purhib" onclick="reserveItem(this)">
+        I'll get this! 🎁
+      </button>
+
+    </div>
+
+  </main>
+
+
+  <!-- NAVIGATION -->
+
+  <nav>
+
+    <ul>
+
+      <li>
+        <a href="misc.html">Misc...</a>
+      </li>
+
+      <li>
+        <a href="beauty.html">Beauty</a>
+      </li>
+
+    </ul>
+
+  </nav>
+
+
+  <!-- JAVASCRIPT -->
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
+```
