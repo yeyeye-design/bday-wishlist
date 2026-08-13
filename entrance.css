@@ -1,0 +1,116 @@
+/* =========================
+   ENTRANCE PAGE
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Urbanist", sans-serif;
+  background: lightpink;
+
+  margin: 0;
+  padding: 30px;
+
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+}
+
+
+/* MAIN CONTENT */
+
+.welcome {
+  width: 90%;
+  max-width: 10000px;
+  height:50%;
+  max-height:3000px;
+
+  transform: scale(1.2);
+}
+
+
+/* TEXT */
+
+h1,
+h2,
+h3,
+p {
+  color: #990C3D;
+}
+
+h1 {
+  font-size: 80px;
+  margin: 0 0 20px;
+}
+
+h2 {
+  font-size: 45px;
+}
+
+p {
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+
+/* BUTTON */
+
+button {
+  background-color: #F086AE;
+
+  color: white;
+
+  border: none;
+
+  padding: 18px 40px;
+
+  border-radius: 999px;
+
+  font-size: 22px;
+
+  font-family: "Urbanist", sans-serif;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background-color: #e45f91;
+
+  transform: translateY(-3px);
+}
+
+
+/* 📱 PHONE */
+
+@media (max-width: 600px) {
+
+  .welcome {
+    transform: scale(1);
+  }
+
+  h1 {
+    font-size: 55px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 15px 30px;
+  }
+
+}
