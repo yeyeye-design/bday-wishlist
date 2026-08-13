@@ -1,5 +1,4 @@
 const SUPABASE_URL = "https://whuhxslxfvilqlecviuu.supabase.co";
-
 const SUPABASE_KEY = "sb_publishable_eZfonS74nqs8I0k61b82UA_mL79NX5U";
 
 
@@ -15,6 +14,7 @@ async function loadWishlist() {
       SUPABASE_URL + "/rest/v1/wishlist?select=item_id,claimed",
       {
         method: "GET",
+
         headers: {
           "apikey": SUPABASE_KEY,
           "Authorization": "Bearer " + SUPABASE_KEY
@@ -40,7 +40,6 @@ async function loadWishlist() {
         if (button) {
           button.textContent = "CLAIMED 💕";
           button.disabled = true;
-          alert("Yay! This item is now claimed! Thank you sooo much <3 🎁💕");
         }
 
       }
@@ -52,6 +51,7 @@ async function loadWishlist() {
     console.error("LOAD ERROR:", error);
 
   }
+
 }
 
 
@@ -63,10 +63,17 @@ async function reserveItem(button) {
 
   const itemId = button.getAttribute("data-item-id");
 
+  console.log("Trying to claim:", itemId);
+
   if (!itemId) {
+
+    alert("Oops! This item doesn't have an ID yet.");
+
     console.error("NO ITEM ID ON BUTTON");
+
     return;
   }
+
 
   const confirmation = confirm(
     "Are you sure you want to get this item? 🎁"
@@ -76,7 +83,11 @@ async function reserveItem(button) {
     return;
   }
 
+
   button.disabled = true;
+
+  button.textContent = "Claiming... 💗";
+
 
   try {
 
@@ -101,6 +112,7 @@ async function reserveItem(button) {
       }
     );
 
+
     if (!response.ok) {
 
       console.error(
@@ -110,25 +122,49 @@ async function reserveItem(button) {
 
       button.disabled = false;
 
-      alert("Something went wrong. Please try again.");
+      button.textContent = "I'll get this! 🎁";
+
+      alert(
+        "Something went wrong. Please try again."
+      );
 
       return;
     }
+
 
     const result = await response.json();
 
-    // Someone already claimed it
+
+    // ==========================
+    // SOMEONE ALREADY CLAIMED IT
+    // ==========================
+
     if (result.length === 0) {
 
       button.textContent = "CLAIMED 💕";
+
       button.disabled = true;
+
+      alert(
+        "Oops! Someone already claimed this item 💕"
+      );
 
       return;
     }
 
-    // Successfully claimed
+
+    // ==========================
+    // SUCCESS
+    // ==========================
+
     button.textContent = "CLAIMED 💕";
+
     button.disabled = true;
+
+    alert(
+      "Yay! This item is now claimed! Thank you sooo much <3 🎁💕"
+    );
+
 
   } catch (error) {
 
@@ -136,9 +172,14 @@ async function reserveItem(button) {
 
     button.disabled = false;
 
-    alert("Something went wrong. Please try again.");
+    button.textContent = "I'll get this! 🎁";
+
+    alert(
+      "Something went wrong. Please try again."
+    );
 
   }
+
 }
 
 
