@@ -39,24 +39,20 @@ async function loadWishlist() {
         return;
       }
 
-      // Gift cards NEVER become claimed
+      // Gift cards are ALWAYS available
       const isGiftCard =
         button.getAttribute("data-gift-card") === "true";
 
       if (isGiftCard) {
-
         button.textContent = "I'll get this! 🎁";
         button.disabled = false;
-
         return;
       }
 
-      // Normal items
+      // Normal claimed item
       if (item.claimed === true) {
-
         button.textContent = "CLAIMED 💕";
         button.disabled = true;
-
       }
 
     });
@@ -78,6 +74,11 @@ async function reserveItem(button) {
 
   const itemId = button.getAttribute("data-item-id");
 
+  if (!itemId) {
+    return;
+  }
+
+  // Gift cards never get saved as claimed
   const isGiftCard =
     button.getAttribute("data-gift-card") === "true";
 
@@ -85,7 +86,6 @@ async function reserveItem(button) {
   const confirmation = confirm(
     "Are you sure you want to get this item? 🎁"
   );
-
 
   if (!confirmation) {
     return;
@@ -111,13 +111,83 @@ async function reserveItem(button) {
   // ==========================
 
   button.disabled = true;
-
   button.textContent = "Checking... 💗";
 
 
   try {
 
-    const response = await fetch(
+    // First check the CURRENT database status
+    const checkResponse = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/wishlist?item_id=eq." +
+      encodeURIComponent(itemId) +
+      "&select=item_id,claimed",
+
+      {
+        method: "GET",
+
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+
+
+    if (!checkResponse.ok) {
+
+      console.log(
+        "CHECK ERROR:",
+        await checkResponse.text()
+      );
+
+      button.disabled = false;
+      button.textContent = "I'll get this! 🎁";
+
+      return;
+    }
+
+
+    const currentItems = await checkResponse.json();
+
+
+    // Item doesn't exist in database
+    if (currentItems.length === 0) {
+
+      alert("This item isn't set up correctly yet 💗");
+
+      button.disabled = false;
+      button.textContent = "I'll get this! 🎁";
+
+      return;
+    }
+
+
+    const currentItem = currentItems[0];
+
+
+    // ==========================
+    // ALREADY CLAIMED
+    // ==========================
+
+    if (currentItem.claimed === true) {
+
+      button.textContent = "CLAIMED 💕";
+      button.disabled = true;
+
+      alert(
+        "Oops! Someone already claimed this 💕"
+      );
+
+      return;
+    }
+
+
+    // ==========================
+    // CLAIM IT
+    // ==========================
+
+    const claimResponse = await fetch(
       SUPABASE_URL +
       "/rest/v1/wishlist?item_id=eq." +
       encodeURIComponent(itemId) +
@@ -140,11 +210,11 @@ async function reserveItem(button) {
     );
 
 
-    if (!response.ok) {
+    if (!claimResponse.ok) {
 
       console.log(
         "CLAIM ERROR:",
-        await response.text()
+        await claimResponse.text()
       );
 
       button.disabled = false;
@@ -154,11 +224,10 @@ async function reserveItem(button) {
     }
 
 
-    const result = await response.json();
+    const result = await claimResponse.json();
 
 
-    // Someone already claimed it
-
+    // Someone claimed it between our check and our update
     if (result.length === 0) {
 
       button.textContent = "CLAIMED 💕";
@@ -173,7 +242,6 @@ async function reserveItem(button) {
 
 
     // Successfully claimed
-
     button.textContent = "CLAIMED 💕";
     button.disabled = true;
 
